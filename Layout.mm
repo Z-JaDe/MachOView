@@ -37,8 +37,8 @@
   {
     dataController = dc;
     rootNode = node;
-    imageOffset = node.dataRange.location;
-    imageSize = node.dataRange.length;
+    imageOffset = (uint32_t)node.dataRange.location;
+    imageSize = (uint32_t)node.dataRange.length;
     backgroundThread = [[NSThread alloc] initWithTarget:self selector:@selector(doBackgroundTasks) object:nil];
     
     const char *tmp = [[MVDocument temporaryDirectory] UTF8String];
@@ -47,7 +47,7 @@
     {
       NSLog(@"mktemp failed!");
       free(swapFilePath);
-      return NO;
+      return nil;
     }
       
     NSString *swapPath = [NSString stringWithFormat:@"%s.%@", swapFilePath, [[dataController fileName] lastPathComponent]];

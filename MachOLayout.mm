@@ -2497,17 +2497,17 @@ struct CompareSectionByName
 {
   NSBlockOperation * linkEditOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processLinkEdit]; else [self processLinkEdit64];
     }
     NSLog(@"%@: LinkEdit finished parsing. (%lu symbols found)", self, 
-    [self is64bit] == NO ? symbols.size() : symbols_64.size());
+          [self is64bit] == NO ? self->symbols.size() : self->symbols_64.size());
   }];
   
   NSBlockOperation * sectionRelocsOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processSectionRelocs]; else [self processSectionRelocs64];
     }
@@ -2516,7 +2516,7 @@ struct CompareSectionByName
   
   NSBlockOperation * dyldInfoOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       [self processDyldInfo];
     }
@@ -2525,7 +2525,7 @@ struct CompareSectionByName
   
   NSBlockOperation * sectionOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processSections]; else [self processSections64];
     }
@@ -2534,7 +2534,7 @@ struct CompareSectionByName
   
   NSBlockOperation * EHFramesOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processEHFrames]; else [self processEHFrames64];
     }
@@ -2543,16 +2543,16 @@ struct CompareSectionByName
   
   NSBlockOperation * LSDAsOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processLSDA]; else [self processLSDA64];
     }
-    NSLog(@"%@: Lang Spec Data Areas finished parsing. (%lu LSDAs found)", self, lsdaInfo.size());
+      NSLog(@"%@: Lang Spec Data Areas finished parsing. (%lu LSDAs found)", self, self->lsdaInfo.size());
   }];
   
   NSBlockOperation * objcSectionOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processObjcSections]; else [self processObjcSections64];
     }
@@ -2561,7 +2561,7 @@ struct CompareSectionByName
   
   NSBlockOperation * codeSectionsOperation = [NSBlockOperation blockOperationWithBlock:^
   {
-    if ([backgroundThread isCancelled]) return;
+      if ([self->backgroundThread isCancelled]) return;
     @autoreleasepool {
       if ([self is64bit] == NO) [self processCodeSections]; else [self processCodeSections64];
     }
